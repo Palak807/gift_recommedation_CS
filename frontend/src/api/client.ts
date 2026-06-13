@@ -98,6 +98,7 @@ export interface RecommendationResult {
 export type StreamEvent =
   | { type: "thinking_token"; stage: string; text: string }
   | { type: "node_complete"; node: string; reasoning?: Record<string, string> }
+  | { type: "cache_hit" }
   | { type: "result"; data: RecommendationResult }
   | { type: "error"; message: string }
   | { type: "llm_metrics"; stage: string; prompt_tokens: number; completion_tokens: number; latency_ms: number };

@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     max_search_retries: int = 2
     min_valid_products: int = 3
 
+    redis_url: str = ""
+    cache_ttl_seconds: int = 86400  # 24 hours
+
     langfuse_secret_key: str = ""
     langfuse_public_key: str = ""
     langfuse_base_url: str = "https://us.cloud.langfuse.com"

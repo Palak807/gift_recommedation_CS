@@ -10,6 +10,7 @@ from ..models.recommendation import (
 from ..pipeline.graph import pipeline_graph
 from ..services.llm_service import call_llm
 from ..services.tracing import create_pipeline_trace, flush_langfuse
+from ..services.cache import make_cache_key, get_cached, set_cached
 
 router = APIRouter()
 
@@ -21,6 +22,14 @@ _pending: dict[str, asyncio.Task] = {}
 @router.post("/recommend", response_model=RecommendationResult)
 async def create_recommendation(contact: ContactProfile):
     """Run the full pipeline for a contact and return top 3 gift recommendations."""
+    contact_dict = json.loads(contact.model_dump_json())
+    cache_key = make_cache_key(contact_dict)
+    cached = await get_cached(cache_key)
+    if cached:
+        result = RecommendationResult(**cached)
+        _results[contact.contact_id] = result
+        return result
+
     metrics_list: list = []
     langfuse_trace = create_pipeline_trace(
         contact.contact_id, contact.name,
@@ -38,6 +47,7 @@ async def create_recommendation(contact: ContactProfile):
         )
     })
     _results[contact.contact_id] = result
+    await set_cached(cache_key, json.loads(result.model_dump_json()))
     if langfuse_trace:
         try:
             langfuse_trace.update(output={
@@ -61,6 +71,20 @@ async def stream_recommendation(contact: ContactProfile):
       - result          { data }          — final RecommendationResult
       - error           { message }       — if something goes wrong
     """
+    contact_dict = json.loads(contact.model_dump_json())
+    cache_key = make_cache_key(contact_dict)
+    cached = await get_cached(cache_key)
+    if cached:
+        _results[contact.contact_id] = RecommendationResult(**cached)
+        async def cached_generator():
+            yield f"data: {json.dumps({'type': 'cache_hit'})}\n\n"
+            yield f"data: {json.dumps({'type': 'result', 'data': cached})}\n\n"
+        return StreamingResponse(
+            cached_generator(),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "Connection": "keep-alive", "X-Accel-Buffering": "no"},
+        )
+
     token_queue: asyncio.Queue = asyncio.Queue()
     metrics_list: list = []
     langfuse_trace = create_pipeline_trace(
@@ -90,10 +114,9 @@ async def stream_recommendation(contact: ContactProfile):
                         )
                         final = final.model_copy(update={"pipeline_metrics": pipeline_metrics})
                         _results[contact.contact_id] = final
-                        await token_queue.put({
-                            "type": "result",
-                            "data": json.loads(final.model_dump_json()),
-                        })
+                        final_dict = json.loads(final.model_dump_json())
+                        await set_cached(cache_key, final_dict)
+                        await token_queue.put({"type": "result", "data": final_dict})
                         if langfuse_trace:
                             try:
                                 langfuse_trace.update(output={
@@ -142,6 +165,15 @@ async def bulk_recommendation(contacts: list[ContactProfile]):
     results = []
     for contact in contacts:
         try:
+            contact_dict = json.loads(contact.model_dump_json())
+            cache_key = make_cache_key(contact_dict)
+            cached = await get_cached(cache_key)
+            if cached:
+                result = RecommendationResult(**cached)
+                _results[contact.contact_id] = result
+                results.append(result)
+                continue
+
             metrics_list: list = []
             langfuse_trace = create_pipeline_trace(
                 contact.contact_id, contact.name,
@@ -159,6 +191,7 @@ async def bulk_recommendation(contacts: list[ContactProfile]):
                 )
             })
             _results[contact.contact_id] = result
+            await set_cached(cache_key, json.loads(result.model_dump_json()))
             if langfuse_trace:
                 try:
                     langfuse_trace.update(output={"contact_id": result.contact_id, "recommendation_count": len(result.top_3_recommendations)})

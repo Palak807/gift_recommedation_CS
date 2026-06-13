@@ -124,6 +124,7 @@ export default function App() {
   const [showPanel, setShowPanel]         = useState<string | null>(null);
   const [bulkResults, setBulkResults]     = useState<RecommendationResult[]>([]);
   const [bulkLoading, setBulkLoading]     = useState(false);
+  const [fromCache, setFromCache]         = useState(false);
 
   const handleSubmit = async (contact: ContactProfile) => {
     setLoading(true);
@@ -135,6 +136,7 @@ export default function App() {
     setLiveReasoning({});
     setStreamingTokens({});
     setBulkResults([]);
+    setFromCache(false);
 
     try {
       await recommendationApi.stream(contact, (event) => {
@@ -150,6 +152,9 @@ export default function App() {
           if (event.reasoning) {
             setLiveReasoning((prev) => ({ ...prev, ...event.reasoning }));
           }
+        } else if (event.type === "cache_hit") {
+          setFromCache(true);
+          setActiveStage(8);
         } else if (event.type === "result") {
           setResult(event.data);
           setActiveStage(8);
@@ -222,6 +227,7 @@ export default function App() {
     setLiveReasoning({});
     setStreamingTokens({});
     setBulkResults([]);
+    setFromCache(false);
   };
 
   const getActionForRank = (rank: number) =>
@@ -332,6 +338,11 @@ export default function App() {
                     {result.signals_extracted.length} signals · {result.search_queries_used.length} queries · {result.products_considered.length} products evaluated
                   </div>
                 </div>
+                {fromCache && (
+                  <span style={{ padding: "4px 10px", borderRadius: 8, background: "rgba(34,211,238,0.08)", border: "1px solid rgba(34,211,238,0.22)", fontSize: 10.5, color: "rgba(34,211,238,0.8)", fontWeight: 700, letterSpacing: "0.5px" }}>
+                    ⚡ Cached
+                  </span>
+                )}
                 <button onClick={handleReset} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.42)", fontSize: 11, cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
                   ↩ Reset
                 </button>
