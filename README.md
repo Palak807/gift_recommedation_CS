@@ -2,8 +2,6 @@
 
 An AI workflow that turns enriched LinkedIn contact data into ranked, purchasable gift recommendations — with real product links, personalised messages, and a human review step.
 
-[![Demo Video](https://drive.google.com/thumbnail?id=1dYvDvGWAqFnc0KlVXEh-QG3YwxMRLpiR&sz=w1280)](https://drive.google.com/file/d/1dYvDvGWAqFnc0KlVXEh-QG3YwxMRLpiR/view?usp=drive_link)
-
 ---
 
 ## What was built
