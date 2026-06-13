@@ -1,0 +1,116 @@
+[
+  {
+    "contact_id": "contact_001",
+    "name": "Arjun Mehta",
+    "linkedin_data": {
+      "headline": "Engineering Manager @ Zepto | Ex-Flipkart | Building high-velocity teams",
+      "summary": "I've spent the last 8 years scaling engineering teams in India's fast-commerce space. Outside of work, I'm an avid ultramarathon runner — completed the Ladakh 50K last year. I read voraciously (mostly non-fiction on systems thinking and behavioural economics). Currently geeking out on productivity tooling and async workflows.",
+      "current_company": "Zepto",
+      "current_role": "Engineering Manager",
+      "industry": "Technology",
+      "skills": ["Engineering Management", "System Design", "Distributed Systems", "Python", "Go", "Team Building", "Ultramarathon", "Running", "Stoicism", "Deep Work"],
+      "recent_posts": [
+        "Just crossed the finish line at the Auroville Half-Marathon. 6 months of training, a lot of 5am runs, and an embarrassing number of energy gels.",
+        "Finished 'The Almanack of Naval Ravikant' last weekend. The chapter on specific knowledge reshaping the way I think about how I hire.",
+        "Hot take: async-first culture is the biggest productivity unlock for distributed engineering teams and almost nobody does it right."
+      ],
+      "recent_comments": [
+        "Agree completely — the difference between a good and great engineer often isn't technical skill, it's the ability to communicate tradeoffs clearly.",
+        "Been using Obsidian for 18 months now. The bi-directional links are genuinely useful once your note graph gets large enough."
+      ],
+      "engaged_topics": ["ultramarathon running", "systems thinking", "productivity tooling", "async work culture", "stoic philosophy", "engineering leadership"],
+      "education": ["IIT Bombay — B.Tech Computer Science (2012–2016)"],
+      "certifications": [],
+      "volunteer_work": ["Mentors first-gen college students at iMentor India"],
+      "honors_awards": ["Flipkart Outstanding Engineer 2019"],
+      "interests": ["Trail running", "Reading", "Zettelkasten", "Endurance sports"]
+    },
+    "constraints": {
+      "budget_min": 2000,
+      "budget_max": 8000,
+      "currency": "INR",
+      "country": "IN",
+      "occasion": "Work anniversary — 5 years",
+      "relationship": "colleague",
+      "avoid_categories": ["alcohol", "food perishables"],
+      "preferences_noted": "Travels light, values quality over quantity",
+      "tone": "warm"
+    }
+  },
+  {
+    "contact_id": "contact_002",
+    "name": "Priya Nair",
+    "linkedin_data": {
+      "headline": "Senior Product Designer @ Swiggy | Design Systems | ex-Zomato",
+      "summary": "I design things that millions of people tap on while hungry. Passionate about accessibility, motion design, and making complex flows feel effortless. Off-screen I paint watercolours, practice Bharatanatyam, and grow herbs on my Mumbai balcony.",
+      "current_company": "Swiggy",
+      "current_role": "Senior Product Designer",
+      "industry": "Design / Technology",
+      "skills": ["Figma", "Design Systems", "Prototyping", "Accessibility", "User Research", "Motion Design", "Watercolour Painting", "Bharatanatyam"],
+      "recent_posts": [
+        "Shipped our new design system token library this week. 400 components, dark mode baked in from day one. The accessibility audit came back green for the first time ever.",
+        "Spent the weekend at a watercolour workshop in Bandra. There's something deeply meditative about wet-on-wet technique — you can plan all you want but the paint decides.",
+        "Hot take: most onboarding flows fail because designers solve for 'first time' but forget 'second time'. The aha moment needs to happen again on day 3."
+      ],
+      "recent_comments": [
+        "This is exactly why I switched to variable fonts last year — the performance gains on mobile are massive.",
+        "Totally agree on the motion design point. Easing curves are the punctuation of interaction design."
+      ],
+      "engaged_topics": ["design systems", "accessibility", "watercolour painting", "Bharatanatyam", "balcony gardening", "motion design", "user onboarding"],
+      "education": ["NID Ahmedabad — M.Des Interaction Design (2017–2019)"],
+      "certifications": ["Google UX Design Certificate"],
+      "volunteer_work": ["Teaches free design basics to underprivileged youth at Design for Change"],
+      "honors_awards": ["Swiggy Design Excellence Award 2023"],
+      "interests": ["Watercolour painting", "Classical dance", "Herb gardening", "Typography"]
+    },
+    "constraints": {
+      "budget_min": 1500,
+      "budget_max": 5000,
+      "currency": "INR",
+      "country": "IN",
+      "occasion": "Birthday",
+      "relationship": "colleague",
+      "avoid_categories": ["alcohol", "meat-based products"],
+      "preferences_noted": "Appreciates handcrafted and artisanal items",
+      "tone": "playful"
+    }
+  },
+  {
+    "contact_id": "contact_003",
+    "name": "Rohan Verma",
+    "linkedin_data": {
+      "headline": "VP Engineering @ Razorpay | FinTech Infrastructure | Angel Investor",
+      "summary": "Building the payments backbone for Indian internet. Led the team that scaled Razorpay from 10K to 5M merchants. I write about distributed systems, reliability engineering, and the craft of building high-stakes software. Weekend hobby: amateur astrophotography from my terrace in Bengaluru.",
+      "current_company": "Razorpay",
+      "current_role": "VP Engineering",
+      "industry": "FinTech",
+      "skills": ["Distributed Systems", "Payment Infrastructure", "Site Reliability", "Kafka", "Go", "PostgreSQL", "Engineering Leadership", "Angel Investing", "Astrophotography"],
+      "recent_posts": [
+        "We just processed ₹1 lakh crore in a single quarter. Thread on the architectural decisions that made it possible without a single P0 incident 🧵",
+        "Captured Saturn's rings last night with my 8-inch Dobsonian. 3 hours of stacking 2000 frames. The patience required is not unlike debugging a race condition in prod.",
+        "Invested in my 12th startup this year. The one thing all the founding teams that impressed me had in common: they had deeply thought through their failure modes."
+      ],
+      "recent_comments": [
+        "The CAP theorem is often misunderstood — you're not choosing two out of three, you're choosing your failure mode.",
+        "Great thread. I'd add that on-call culture is a leading indicator of engineering culture overall."
+      ],
+      "engaged_topics": ["distributed systems", "payment infrastructure", "astrophotography", "angel investing", "site reliability engineering", "telescope imaging"],
+      "education": ["IIT Delhi — B.Tech Computer Science (2008–2012)"],
+      "certifications": [],
+      "volunteer_work": ["Mentors early-stage FinTech founders at 100X.VC"],
+      "honors_awards": ["Forbes India 30 Under 30 — Technology (2021)", "Razorpay CEO Award 2022"],
+      "interests": ["Astrophotography", "Deep sky imaging", "Telescope optics", "Startup investing", "Systems design writing"]
+    },
+    "constraints": {
+      "budget_min": 5000,
+      "budget_max": 20000,
+      "currency": "INR",
+      "country": "IN",
+      "occasion": "Promotion celebration",
+      "relationship": "manager",
+      "avoid_categories": ["alcohol", "generic corporate gifts"],
+      "preferences_noted": "Values experiences and precision instruments over decorative items",
+      "tone": "formal"
+    }
+  }
+]

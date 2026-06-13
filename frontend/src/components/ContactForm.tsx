@@ -44,6 +44,63 @@ const SAMPLE_CONTACT: ContactProfile = {
   },
 };
 
+const SAMPLE_BULK: ContactProfile[] = [
+  {
+    contact_id: "contact_001",
+    name: "Arjun Mehta",
+    linkedin_data: {
+      headline: "Engineering Manager @ Zepto | Ex-Flipkart | Building high-velocity teams",
+      summary: "8 years scaling engineering teams in India's fast-commerce space. Avid ultramarathon runner — completed Ladakh 50K. Reads voraciously on systems thinking and behavioural economics.",
+      current_company: "Zepto", current_role: "Engineering Manager", industry: "Technology",
+      skills: ["Engineering Management","System Design","Distributed Systems","Python","Ultramarathon","Stoicism","Deep Work"],
+      recent_posts: ["Just crossed the finish line at the Auroville Half-Marathon. 6 months of training, a lot of 5am runs.","Finished The Almanack of Naval Ravikant. The chapter on specific knowledge is reshaping how I hire."],
+      recent_comments: ["Been using Obsidian for 18 months now. The bi-directional links are genuinely useful once your note graph gets large enough."],
+      engaged_topics: ["ultramarathon running","systems thinking","productivity tooling","stoic philosophy"],
+      education: ["IIT Bombay — B.Tech Computer Science (2012–2016)"],
+      certifications: [], volunteer_work: ["Mentors first-gen college students at iMentor India"],
+      honors_awards: ["Flipkart Outstanding Engineer 2019"],
+      interests: ["Trail running","Reading","Zettelkasten","Endurance sports"],
+    },
+    constraints: { budget_min: 2000, budget_max: 8000, currency: "INR", country: "IN", occasion: "Work anniversary — 5 years", relationship: "colleague", avoid_categories: ["alcohol","food perishables"], preferences_noted: "Travels light, values quality over quantity", tone: "warm" },
+  },
+  {
+    contact_id: "contact_002",
+    name: "Priya Nair",
+    linkedin_data: {
+      headline: "Senior Product Designer @ Swiggy | Design Systems | ex-Zomato",
+      summary: "I design things that millions of people tap on while hungry. Passionate about accessibility and motion design. Off-screen I paint watercolours, practice Bharatanatyam, and grow herbs on my Mumbai balcony.",
+      current_company: "Swiggy", current_role: "Senior Product Designer", industry: "Design / Technology",
+      skills: ["Figma","Design Systems","Prototyping","Accessibility","Motion Design","Watercolour Painting","Bharatanatyam"],
+      recent_posts: ["Shipped our new design system token library this week. 400 components, dark mode baked in from day one.","Spent the weekend at a watercolour workshop in Bandra. There's something deeply meditative about wet-on-wet technique."],
+      recent_comments: ["Totally agree on the motion design point. Easing curves are the punctuation of interaction design."],
+      engaged_topics: ["design systems","accessibility","watercolour painting","Bharatanatyam","balcony gardening","typography"],
+      education: ["NID Ahmedabad — M.Des Interaction Design (2017–2019)"],
+      certifications: ["Google UX Design Certificate"], volunteer_work: ["Teaches design basics to underprivileged youth at Design for Change"],
+      honors_awards: ["Swiggy Design Excellence Award 2023"],
+      interests: ["Watercolour painting","Classical dance","Herb gardening","Typography"],
+    },
+    constraints: { budget_min: 1500, budget_max: 5000, currency: "INR", country: "IN", occasion: "Birthday", relationship: "colleague", avoid_categories: ["alcohol","meat-based products"], preferences_noted: "Appreciates handcrafted and artisanal items", tone: "playful" },
+  },
+  {
+    contact_id: "contact_003",
+    name: "Rohan Verma",
+    linkedin_data: {
+      headline: "VP Engineering @ Razorpay | FinTech Infrastructure | Angel Investor",
+      summary: "Building the payments backbone for Indian internet. Led the team that scaled Razorpay from 10K to 5M merchants. Weekend hobby: amateur astrophotography from my terrace in Bengaluru.",
+      current_company: "Razorpay", current_role: "VP Engineering", industry: "FinTech",
+      skills: ["Distributed Systems","Payment Infrastructure","Site Reliability","Kafka","Go","Engineering Leadership","Astrophotography","Angel Investing"],
+      recent_posts: ["We just processed ₹1 lakh crore in a single quarter. Thread on the architectural decisions that made it possible 🧵","Captured Saturn's rings last night with my 8-inch Dobsonian. 3 hours of stacking 2000 frames."],
+      recent_comments: ["The CAP theorem is often misunderstood — you're not choosing two out of three, you're choosing your failure mode."],
+      engaged_topics: ["distributed systems","payment infrastructure","astrophotography","angel investing","site reliability engineering"],
+      education: ["IIT Delhi — B.Tech Computer Science (2008–2012)"],
+      certifications: [], volunteer_work: ["Mentors early-stage FinTech founders at 100X.VC"],
+      honors_awards: ["Forbes India 30 Under 30 — Technology (2021)","Razorpay CEO Award 2022"],
+      interests: ["Astrophotography","Deep sky imaging","Telescope optics","Startup investing"],
+    },
+    constraints: { budget_min: 5000, budget_max: 20000, currency: "INR", country: "IN", occasion: "Promotion celebration", relationship: "manager", avoid_categories: ["alcohol","generic corporate gifts"], preferences_noted: "Values precision instruments and experiences over decorative items", tone: "formal" },
+  },
+];
+
 const FIELD_TAGS = ["LinkedIn URL","Interests","Budget","Occasion","Relationship","Exclusions","Constraints"];
 
 const TONE_OPTIONS = [
@@ -122,6 +179,11 @@ export default function ContactForm({ onSubmit, onBulkSubmit, onReset, loading, 
 
   const loadSample = () => {
     setJsonText(JSON.stringify(SAMPLE_CONTACT, null, 2));
+    setParseError("");
+  };
+
+  const loadSampleBulk = () => {
+    setBulkText(JSON.stringify(SAMPLE_BULK, null, 2));
     setParseError("");
   };
 
@@ -316,7 +378,7 @@ export default function ContactForm({ onSubmit, onBulkSubmit, onReset, loading, 
         <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.06)" }} />
       </div>
 
-      {/* Load sample button (single mode only) */}
+      {/* Load sample button */}
       {mode === "single" && (
         <button
           onClick={loadSample}
@@ -325,6 +387,16 @@ export default function ContactForm({ onSubmit, onBulkSubmit, onReset, loading, 
         >
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Load sample profile
+        </button>
+      )}
+      {mode === "bulk" && (
+        <button
+          onClick={loadSampleBulk}
+          disabled={loading}
+          style={{ width: "100%", padding: "11px", borderRadius: 10, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.6)", fontSize: 12.5, fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "inherit", marginBottom: 14, transition: "all 0.15s", opacity: loading ? 0.5 : 1 }}
+        >
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Load 3 sample contacts
         </button>
       )}
 

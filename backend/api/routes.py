@@ -76,8 +76,25 @@ async def stream_recommendation(contact: ContactProfile):
     cached = await get_cached(cache_key)
     if cached:
         _results[contact.contact_id] = RecommendationResult(**cached)
+        stage_reasoning = cached.get("stage_reasoning", {})
         async def cached_generator():
             yield f"data: {json.dumps({'type': 'cache_hit'})}\n\n"
+            stage_delays = {
+                "ingest":            0.6,
+                "extract_signals":   3.2,
+                "filter_signals":    2.1,
+                "search_products":   2.8,
+                "validate_products": 1.9,
+                "rank_gifts":        2.4,
+                "generate_messages": 3.0,
+                "assemble_result":   0.7,
+            }
+            for node in stage_delays:
+                await asyncio.sleep(stage_delays[node])
+                event: dict = {"type": "node_complete", "node": node}
+                if node in stage_reasoning:
+                    event["reasoning"] = {node: stage_reasoning[node]}
+                yield f"data: {json.dumps(event)}\n\n"
             yield f"data: {json.dumps({'type': 'result', 'data': cached})}\n\n"
         return StreamingResponse(
             cached_generator(),
