@@ -3,8 +3,8 @@ import ContactForm from "./components/ContactForm";
 import RecommendationCard from "./components/RecommendationCard";
 import SignalBadges from "./components/SignalBadges";
 import { recommendationApi } from "./api/client";
-import type { RecommendationResult, ContactProfile, LLMCallMetric } from "./api/client";
-import { AlertTriangle, ChevronRight, Search, Package, Sparkles, ShieldCheck, Brain, DollarSign } from "lucide-react";
+import type { RecommendationResult, ContactProfile } from "./api/client";
+import { AlertTriangle, ChevronRight, Search, Package, Sparkles, ShieldCheck, Brain } from "lucide-react";
 
 const PIPELINE_STEPS = [
   { id: "ingest",           label: "Ingesting Profile",   desc: "Validating contact profile & gift constraints" },
@@ -110,85 +110,7 @@ function BulkResultsView({ results, onClear }: { results: RecommendationResult[]
   );
 }
 
-/* ─── Pipeline Metrics Panel ─── */
-function PipelineMetricsPanel({ metrics, metricsData }: {
-  metrics?: { total_latency_ms: number; total_tokens: number; total_cost_usd: number; llm_calls: LLMCallMetric[] };
-  metricsData: LLMCallMetric[];
-}) {
-  // Prefer server metrics, fall back to client-accumulated metricsData
-  const calls = metrics?.llm_calls ?? metricsData;
-  const totalTokens = metrics?.total_tokens ?? metricsData.reduce((s, m) => s + m.total_tokens, 0);
-  const totalCost = metrics?.total_cost_usd ?? metricsData.reduce((s, m) => s + m.estimated_cost_usd, 0);
-  const totalLatency = metrics?.total_latency_ms ?? metricsData.reduce((s, m) => s + m.latency_ms, 0);
 
-  if (calls.length === 0 && !metrics) return null;
-
-  return (
-    <div style={{ background: "rgba(255,255,255,0.04)", backdropFilter: "blur(32px) saturate(200%)", WebkitBackdropFilter: "blur(32px) saturate(200%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, overflow: "hidden" }}>
-      <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <DollarSign size={13} style={{ color: "rgba(110,231,183,0.9)" }} />
-        </div>
-        <div>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.9px", textTransform: "uppercase", color: "rgba(255,255,255,0.3)" }}>Pipeline Metrics</p>
-          <p style={{ fontSize: 10, color: "rgba(255,255,255,0.2)", marginTop: 1 }}>Token usage · cost · latency per stage</p>
-        </div>
-      </div>
-      <div style={{ padding: "14px 20px" }}>
-        {/* Summary row */}
-        <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-          {[
-            { label: "Tokens", value: totalTokens.toLocaleString() },
-            { label: "Cost", value: `$${totalCost.toFixed(4)}` },
-            { label: "Latency", value: `${totalLatency.toLocaleString()}ms` },
-          ].map((item) => (
-            <div key={item.label} style={{ flex: 1, background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 8, padding: "8px 10px", textAlign: "center" }}>
-              <p style={{ fontSize: 14, fontWeight: 800, color: "rgba(255,255,255,0.8)", letterSpacing: -0.3 }}>{item.value}</p>
-              <p style={{ fontSize: 9.5, color: "rgba(255,255,255,0.28)", marginTop: 2, letterSpacing: "0.5px", textTransform: "uppercase" }}>{item.label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Per-stage table */}
-        {calls.length > 0 && (
-          <div>
-            {/* Header */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px", gap: 8, padding: "5px 8px", marginBottom: 4 }}>
-              <span style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.22)", letterSpacing: "0.8px", textTransform: "uppercase" }}>Stage</span>
-              <span style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.22)", letterSpacing: "0.8px", textTransform: "uppercase", textAlign: "right" }}>Tokens</span>
-              <span style={{ fontSize: 9.5, fontWeight: 700, color: "rgba(255,255,255,0.22)", letterSpacing: "0.8px", textTransform: "uppercase", textAlign: "right" }}>Latency</span>
-            </div>
-            {calls.map((m, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px", gap: 8, padding: "6px 8px", borderRadius: 6, background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}>
-                <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {STAGE_REASONING_LABELS[m.stage] ?? m.stage}
-                </span>
-                <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", textAlign: "right", fontFamily: "monospace" }}>
-                  {m.total_tokens.toLocaleString()}
-                </span>
-                <span style={{ fontSize: 11.5, color: "rgba(255,255,255,0.45)", textAlign: "right", fontFamily: "monospace" }}>
-                  {m.latency_ms.toLocaleString()}ms
-                </span>
-              </div>
-            ))}
-            {/* Totals divider */}
-            <div style={{ height: 1, background: "rgba(255,255,255,0.06)", margin: "6px 0" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 80px 80px", gap: 8, padding: "6px 8px" }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.65)" }}>Total</span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(110,231,183,0.8)", textAlign: "right", fontFamily: "monospace" }}>
-                {totalTokens.toLocaleString()}
-              </span>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "rgba(110,231,183,0.8)", textAlign: "right", fontFamily: "monospace" }}>
-                {totalLatency.toLocaleString()}ms
-                <span style={{ fontSize: 10, color: "rgba(167,139,250,0.7)", marginLeft: 6 }}>${totalCost.toFixed(4)}</span>
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 export default function App() {
   const [result, setResult]               = useState<RecommendationResult | null>(null);
@@ -200,7 +122,6 @@ export default function App() {
   const [liveReasoning, setLiveReasoning] = useState<Record<string, string>>({});
   const [streamingTokens, setStreamingTokens] = useState<Record<string, string>>({});
   const [showPanel, setShowPanel]         = useState<string | null>(null);
-  const [metricsData, setMetricsData]     = useState<LLMCallMetric[]>([]);
   const [bulkResults, setBulkResults]     = useState<RecommendationResult[]>([]);
   const [bulkLoading, setBulkLoading]     = useState(false);
 
@@ -213,7 +134,6 @@ export default function App() {
     setCurrentNode("ingest");
     setLiveReasoning({});
     setStreamingTokens({});
-    setMetricsData([]);
     setBulkResults([]);
 
     try {
@@ -235,15 +155,6 @@ export default function App() {
           setActiveStage(8);
         } else if (event.type === "error") {
           setError(event.message || "Pipeline failed.");
-        } else if (event.type === "llm_metrics") {
-          setMetricsData((prev) => [...prev, {
-            stage: event.stage,
-            prompt_tokens: event.prompt_tokens,
-            completion_tokens: event.completion_tokens,
-            latency_ms: event.latency_ms,
-            total_tokens: event.prompt_tokens + event.completion_tokens,
-            estimated_cost_usd: ((event.prompt_tokens * 3 + event.completion_tokens * 15) / 1_000_000),
-          }]);
         }
       });
     } catch (e: any) {
@@ -310,7 +221,6 @@ export default function App() {
     setCurrentNode("");
     setLiveReasoning({});
     setStreamingTokens({});
-    setMetricsData([]);
     setBulkResults([]);
   };
 
@@ -322,8 +232,6 @@ export default function App() {
     : "";
 
   const pct = Math.round((activeStage / 8) * 100);
-
-  const showMetrics = (result?.pipeline_metrics != null) || metricsData.length > 0;
 
   return (
     <div style={{ position: "relative", height: "100vh", overflow: "hidden", background: "#07070e" }}>
@@ -498,14 +406,6 @@ export default function App() {
                     );
                   })}
                 </div>
-              )}
-
-              {/* Pipeline Metrics Panel */}
-              {showMetrics && (
-                <PipelineMetricsPanel
-                  metrics={result.pipeline_metrics}
-                  metricsData={metricsData}
-                />
               )}
 
               {/* Pipeline Insights */}
