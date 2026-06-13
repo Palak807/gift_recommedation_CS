@@ -1,0 +1,47 @@
+{
+  "contact_id": "contact_001",
+  "name": "Arjun Mehta",
+  "linkedin_data": {
+    "headline": "Engineering Manager @ Zepto | Ex-Flipkart | Building high-velocity teams",
+    "summary": "I've spent the last 8 years scaling engineering teams in India's fast-commerce space. Outside of work, I'm an avid ultramarathon runner — completed the Ladakh 50K last year. I read voraciously (mostly non-fiction on systems thinking and behavioural economics). Currently geeking out on productivity tooling and async workflows.",
+    "current_company": "Zepto",
+    "current_role": "Engineering Manager",
+    "industry": "Technology",
+    "skills": [
+      "Engineering Management", "System Design", "Distributed Systems",
+      "Python", "Go", "Team Building", "Technical Roadmap", "Ultramarathon",
+      "Running", "Stoicism", "Deep Work"
+    ],
+    "recent_posts": [
+      "Just crossed the finish line at the Auroville Half-Marathon. 6 months of training, a lot of 5am runs, and an embarrassing number of energy gels. The parallels to building a team are uncanny — pacing, trust, and showing up even when it's hard.",
+      "Finished 'The Almanack of Naval Ravikant' last weekend. The chapter on specific knowledge reshaping the way I think about how I hire. Thread on what I took away 👇",
+      "Hot take: async-first culture is the biggest productivity unlock for distributed engineering teams and almost nobody does it right. Here's what we changed at Zepto that moved the needle."
+    ],
+    "recent_comments": [
+      "Agree completely — the difference between a good and great engineer often isn't technical skill, it's the ability to communicate tradeoffs clearly.",
+      "Been using Obsidian for 18 months now. The bi-directional links are genuinely useful once your note graph gets large enough."
+    ],
+    "engaged_topics": [
+      "ultramarathon running", "systems thinking", "productivity tooling",
+      "async work culture", "behavioural economics", "note-taking systems",
+      "stoic philosophy", "engineering leadership"
+    ],
+    "education": [
+      "IIT Bombay — B.Tech Computer Science (2012–2016)"
+    ],
+    "certifications": [],
+    "volunteer_work": ["Mentors first-gen college students at iMentor India"],
+    "honors_awards": ["Flipkart Outstanding Engineer 2019"],
+    "interests": ["Trail running", "Reading", "Zettelkasten", "Endurance sports"]
+  },
+  "constraints": {
+    "budget_min": 2000,
+    "budget_max": 8000,
+    "currency": "INR",
+    "country": "IN",
+    "occasion": "Work anniversary — 5 years",
+    "relationship": "colleague",
+    "avoid_categories": ["alcohol", "food perishables"],
+    "preferences_noted": "Travels light, values quality over quantity"
+  }
+}

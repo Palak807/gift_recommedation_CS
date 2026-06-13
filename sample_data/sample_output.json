@@ -1,0 +1,126 @@
+{
+  "contact_id": "contact_001",
+  "contact_name": "Arjun Mehta",
+  "signals_extracted": [
+    {
+      "category": "endurance_sports",
+      "signal": "Serious ultramarathon runner — completed Ladakh 50K, posts about 5am training runs",
+      "strength": "strong",
+      "source": "summary + recent_posts"
+    },
+    {
+      "category": "productivity_tools",
+      "signal": "Active Obsidian/Zettelkasten user for 18+ months, writes about note-taking systems",
+      "strength": "strong",
+      "source": "recent_comments + engaged_topics"
+    },
+    {
+      "category": "reading_nonfiction",
+      "signal": "Voracious non-fiction reader — Naval, systems thinking, behavioural economics",
+      "strength": "strong",
+      "source": "summary + recent_posts"
+    },
+    {
+      "category": "stoic_philosophy",
+      "signal": "References Stoicism in skills and content; values discipline and resilience",
+      "strength": "moderate",
+      "source": "skills + engaged_topics"
+    },
+    {
+      "category": "async_productivity",
+      "signal": "Writes and advocates for async-first work culture",
+      "strength": "moderate",
+      "source": "recent_posts"
+    }
+  ],
+  "signals_filtered_out": [],
+  "search_queries_used": [
+    "ultramarathon running gear gift India under 8000 INR",
+    "premium notebook journal productivity gift India 2000-8000 rupees",
+    "stoicism nonfiction books gift set India online",
+    "running hydration vest trail running gift India buy"
+  ],
+  "products_considered": [
+    {
+      "title": "Nathan VaporAiress 7L Running Vest",
+      "url": "https://www.amazon.in/Nathan-VaporAiress-Hydration-Running-Vest/dp/B09XK3V2W1",
+      "price": 6499.0,
+      "currency": "INR",
+      "seller": "Amazon India",
+      "description": "7L hydration vest designed for trail and ultramarathon running",
+      "in_budget": true,
+      "url_valid": true,
+      "relevance_score": 0.91,
+      "search_query_used": "ultramarathon running gear gift India under 8000 INR"
+    }
+  ],
+  "top_3_recommendations": [
+    {
+      "rank": 1,
+      "product": {
+        "title": "Nathan VaporAiress 7L Trail Running Hydration Vest",
+        "url": "https://www.amazon.in/Nathan-VaporAiress-Hydration-Running-Vest/dp/B09XK3V2W1",
+        "price": 6499.0,
+        "currency": "INR",
+        "seller": "Amazon India",
+        "description": "7L hydration vest for ultramarathon and trail running with bounce-free design",
+        "in_budget": true,
+        "url_valid": true,
+        "relevance_score": 0.91,
+        "search_query_used": "ultramarathon running gear gift India under 8000 INR"
+      },
+      "personalised_message": "Five years of watching you operate at full sprint — this vest is for the literal kind. Given your Ladakh 50K and the 5am training runs, I figured your next race deserves gear that keeps up with you.",
+      "reasoning": "Arjun is a serious ultramarathon runner who has completed a 50K. A quality hydration vest is a highly practical, high-signal gift that shows you paid attention to a core part of his life outside work.",
+      "confidence_score": 0.87,
+      "risk_level": "low",
+      "assumptions": ["He doesn't already own this specific vest", "He continues ultramarathon running"],
+      "signals_matched": ["ultramarathon runner — Ladakh 50K", "5am training runs", "trail running interests"]
+    },
+    {
+      "rank": 2,
+      "product": {
+        "title": "Leuchtturm1917 Hardcover A5 Dotted Notebook — Emerald",
+        "url": "https://www.amazon.in/Leuchtturm1917-Hardcover-Notebook-Dotted-Emerald/dp/B001JTJ3ES",
+        "price": 1850.0,
+        "currency": "INR",
+        "seller": "Amazon India",
+        "description": "A5 dotted hardcover notebook, the standard choice for Zettelkasten note-takers",
+        "in_budget": true,
+        "url_valid": true,
+        "relevance_score": 0.83,
+        "search_query_used": "premium notebook journal productivity gift India 2000-8000 rupees"
+      },
+      "personalised_message": "You've written more about Zettelkasten than almost anyone I follow — so a proper Leuchtturm1917 felt right. The dotted grid works well for the kind of networked thinking you seem to live in.",
+      "reasoning": "Arjun is an active Obsidian user who engages deeply with note-taking systems and Zettelkasten. The Leuchtturm1917 is the canonical notebook for this community — a specific, thoughtful choice that signals you actually read his posts.",
+      "confidence_score": 0.81,
+      "risk_level": "low",
+      "assumptions": ["He values analog note-taking alongside digital", "He hasn't filled his current notebook"],
+      "signals_matched": ["Obsidian user 18+ months", "Zettelkasten methodology", "productivity tooling passion"]
+    },
+    {
+      "rank": 3,
+      "product": {
+        "title": "How Big Things Get Done — Bent Flyvbjerg (Hardcover)",
+        "url": "https://www.amazon.in/How-Big-Things-Get-Done/dp/0593239513",
+        "price": 1299.0,
+        "currency": "INR",
+        "seller": "Amazon India",
+        "description": "Behavioural economics meets large-scale project management — why projects fail and how to make them succeed",
+        "in_budget": true,
+        "url_valid": true,
+        "relevance_score": 0.78,
+        "search_query_used": "behavioural economics systems thinking book gift India"
+      },
+      "personalised_message": "Given your interest in systems thinking and behavioural economics, this one sits right in that intersection — it's about why ambitious plans fail and how the best operators prevent it. Felt like a fitting read for someone 5 years into building high-velocity teams.",
+      "reasoning": "Arjun is a voracious non-fiction reader who follows behavioural economics and systems thinking. This book sits precisely at that intersection and connects to his EM work — a thoughtful gift that respects his intellectual curiosity.",
+      "confidence_score": 0.73,
+      "risk_level": "low",
+      "assumptions": ["He hasn't already read this", "He prefers physical books"],
+      "signals_matched": ["non-fiction reader", "behavioural economics interest", "systems thinking", "engineering leadership"]
+    }
+  ],
+  "review_status": "pending",
+  "review_actions": [],
+  "pipeline_warnings": [],
+  "low_signal_flag": false
+}
