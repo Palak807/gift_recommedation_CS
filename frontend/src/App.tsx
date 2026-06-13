@@ -46,61 +46,72 @@ const CARD_PALETTE = [
 ];
 
 /* ─── Bulk Results View ─── */
-function BulkResultsView({ results, onClear }: { results: RecommendationResult[]; onClear: () => void }) {
+function BulkResultsView({ results, onClear, onSelect }: { results: RecommendationResult[]; onClear: () => void; onSelect: (r: RecommendationResult) => void }) {
+  const [hovered, setHovered] = React.useState<string | null>(null);
   return (
     <div style={{ background: "rgba(255,255,255,0.04)", backdropFilter: "blur(32px) saturate(200%)", WebkitBackdropFilter: "blur(32px) saturate(200%)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 16, overflow: "hidden" }}>
       <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.9px", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>Bulk Results</p>
-          <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.25)", marginTop: 1 }}>{results.length} contact{results.length !== 1 ? "s" : ""} processed</p>
+          <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.25)", marginTop: 1 }}>{results.length} contact{results.length !== 1 ? "s" : ""} processed · click a row to view full recommendations</p>
         </div>
         <button onClick={onClear} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.42)", fontSize: 11, cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
           Clear
         </button>
       </div>
-      <div style={{ maxHeight: 480, overflowY: "auto", padding: "8px 0" }}>
+      <div style={{ padding: "6px 0" }}>
         {results.map((r, idx) => {
           const top = r.top_3_recommendations[0];
           const metrics = r.pipeline_metrics;
+          const isHovered = hovered === (r.contact_id ?? String(idx));
           return (
-            <div key={r.contact_id ?? idx} style={{ padding: "12px 20px", borderBottom: idx < results.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+            <div
+              key={r.contact_id ?? idx}
+              onClick={() => onSelect(r)}
+              onMouseEnter={() => setHovered(r.contact_id ?? String(idx))}
+              onMouseLeave={() => setHovered(null)}
+              style={{ padding: "13px 20px", borderBottom: idx < results.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none", cursor: "pointer", background: isHovered ? "rgba(139,92,246,0.08)" : "transparent", transition: "background 0.15s" }}
+            >
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,rgba(139,92,246,0.4),rgba(59,130,246,0.4))", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 800, color: "rgba(255,255,255,0.85)", flexShrink: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 9, background: "linear-gradient(135deg,rgba(139,92,246,0.4),rgba(59,130,246,0.4))", border: `1px solid ${isHovered ? "rgba(139,92,246,0.5)" : "rgba(255,255,255,0.1)"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, color: "rgba(255,255,255,0.9)", flexShrink: 0, transition: "border-color 0.15s" }}>
                       {r.contact_name.slice(0, 1).toUpperCase()}
                     </div>
-                    <div>
-                      <p style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>{r.contact_name}</p>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: 13.5, fontWeight: 700, color: isHovered ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.85)", transition: "color 0.15s" }}>{r.contact_name}</p>
                       <p style={{ fontSize: 10.5, color: "rgba(255,255,255,0.28)" }}>
                         {r.signals_extracted.length} signals · {r.top_3_recommendations.length} recommendations
                       </p>
                     </div>
                   </div>
                   {top && (
-                    <div style={{ marginLeft: 36, marginBottom: 4 }}>
-                      <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        Top: {top.product.title}
+                    <div style={{ marginLeft: 40 }}>
+                      <p style={{ fontSize: 11.5, color: "rgba(255,255,255,0.5)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 4 }}>
+                        Top pick: {top.product.title}
                       </p>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
-                        <div style={{ width: Math.round(top.confidence_score * 60), height: 3, borderRadius: 2, background: "linear-gradient(to right,rgba(139,92,246,0.7),rgba(167,139,250,0.9))" }} />
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <div style={{ width: Math.round(top.confidence_score * 64), height: 3, borderRadius: 2, background: "linear-gradient(to right,rgba(139,92,246,0.7),rgba(167,139,250,0.9))" }} />
                         <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>{Math.round(top.confidence_score * 100)}% confidence</span>
                       </div>
                     </div>
                   )}
                   {r.pipeline_warnings.length > 0 && (
-                    <div style={{ marginLeft: 36, display: "flex", alignItems: "center", gap: 5, marginTop: 4 }}>
+                    <div style={{ marginLeft: 40, display: "flex", alignItems: "center", gap: 5, marginTop: 5 }}>
                       <AlertTriangle size={10} style={{ color: "#fde68a", flexShrink: 0 }} />
                       <span style={{ fontSize: 10.5, color: "#fde68a" }}>{r.pipeline_warnings.length} warning{r.pipeline_warnings.length !== 1 ? "s" : ""}</span>
                     </div>
                   )}
                 </div>
-                {metrics && (
-                  <div style={{ flexShrink: 0, textAlign: "right" }}>
-                    <p style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", marginBottom: 2 }}>{metrics.total_latency_ms.toLocaleString()}ms</p>
-                    <p style={{ fontSize: 10, color: "rgba(167,139,250,0.6)" }}>${metrics.total_cost_usd.toFixed(4)}</p>
-                  </div>
-                )}
+                <div style={{ display: "flex", alignItems: "center", gap: 14, flexShrink: 0 }}>
+                  {metrics && (
+                    <div style={{ textAlign: "right" }}>
+                      <p style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", marginBottom: 2 }}>{metrics.total_latency_ms.toLocaleString()}ms</p>
+                      <p style={{ fontSize: 10, color: "rgba(167,139,250,0.6)" }}>${metrics.total_cost_usd.toFixed(4)}</p>
+                    </div>
+                  )}
+                  <ChevronRight size={15} style={{ color: isHovered ? "rgba(167,139,250,0.9)" : "rgba(255,255,255,0.18)", transition: "color 0.15s" }} />
+                </div>
               </div>
             </div>
           );
@@ -219,6 +230,11 @@ export default function App() {
     } finally { setActionLoading(null); }
   };
 
+  const handleSelectBulk = (r: RecommendationResult) => {
+    setResult(r);
+    setFromCache(false);
+  };
+
   const handleReset = () => {
     setResult(null);
     setError("");
@@ -226,8 +242,13 @@ export default function App() {
     setCurrentNode("");
     setLiveReasoning({});
     setStreamingTokens({});
-    setBulkResults([]);
     setFromCache(false);
+    // keep bulkResults so user returns to the bulk list
+  };
+
+  const handleFullReset = () => {
+    handleReset();
+    setBulkResults([]);
   };
 
   const getActionForRank = (rank: number) =>
@@ -281,7 +302,7 @@ export default function App() {
       <div style={{ position: "relative", zIndex: 10, display: "flex", gap: 14, padding: 16, height: "calc(100vh - 54px)", overflow: "hidden" }}>
 
         {/* LEFT PANEL */}
-        <ContactForm onSubmit={handleSubmit} onBulkSubmit={handleBulkSubmit} loading={loading || bulkLoading} onReset={handleReset} hasResult={!!result} />
+        <ContactForm onSubmit={handleSubmit} onBulkSubmit={handleBulkSubmit} loading={loading || bulkLoading} onReset={handleFullReset} hasResult={!!result || bulkResults.length > 0} />
 
         {/* RIGHT PANEL */}
         <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", minWidth: 0 }}>
@@ -316,10 +337,10 @@ export default function App() {
           {/* Processing (single) */}
           {loading && <ProcessingView activeStage={activeStage} pct={pct} currentNode={currentNode} liveReasoning={liveReasoning} streamingTokens={streamingTokens} />}
 
-          {/* Bulk Results */}
-          {bulkResults.length > 0 && !loading && !bulkLoading && (
+          {/* Bulk Results list — hidden when a contact is drilled into */}
+          {bulkResults.length > 0 && !result && !loading && !bulkLoading && (
             <div className="animate-fade-in" style={{ display: "flex", flexDirection: "column", gap: 13 }}>
-              <BulkResultsView results={bulkResults} onClear={() => setBulkResults([])} />
+              <BulkResultsView results={bulkResults} onClear={() => setBulkResults([])} onSelect={handleSelectBulk} />
             </div>
           )}
 
@@ -344,7 +365,7 @@ export default function App() {
                   </span>
                 )}
                 <button onClick={handleReset} style={{ padding: "5px 12px", borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.42)", fontSize: 11, cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>
-                  ↩ Reset
+                  {bulkResults.length > 0 ? "← Back" : "↩ Reset"}
                 </button>
               </div>
 
